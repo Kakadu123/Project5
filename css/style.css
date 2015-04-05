@@ -1,0 +1,57 @@
+body {
+	font-size: 0.9em;
+}
+
+#googleMap {
+	margin: 10px;
+	width: 60%;
+	height: 500px;
+	float: left;
+}
+
+#content ul {
+	margin: 10px;
+	width: 30%;
+	float: left;
+}
+
+h2 {
+	margin: 30px;
+	padding-left: 5%;
+}
+
+li {
+	margin: 4px;
+	list-style: none;
+}
+
+#filterDiv {
+	margin: 20px 15px;
+	font-size: 0.9em;
+}
+
+#firstCol {
+	width: 20%;
+	float: left;
+	min-width: 128px;
+}
+
+#secCol {
+	width: 80%;
+	float: left;
+}
+
+#filterInput{
+	width: 95%;
+}
+
+.filterSpan{
+	min-width: 128px;
+	width: 80%;
+	float: right;
+}
+
+.filterSpan, #filterInput, #filterButton {
+	padding: 2px 8px;
+	margin: 15px 0;
+}
