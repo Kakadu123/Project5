@@ -55,3 +55,10 @@ li {
 	padding: 2px 8px;
 	margin: 15px 0;
 }
+
+.photoimg {
+	width: 150px;
+	height: 150px;
+	float:right;
+	
+}
