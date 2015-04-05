@@ -1,5 +1,5 @@
 var NeighborhoodMap = (function() {
-	
+
 	var view = {
 		map : null,
 		init : function() {
@@ -26,9 +26,8 @@ var NeighborhoodMap = (function() {
 			google.maps.event.addListener(marker, 'click', function() {
 
 				var wikiurl = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&exchars=500&titles=" + name;
-				var htmlWiki = "<div id='content'><h3>" + name + "</h3>";		
-				htmlWiki += '<img class="photoimg" src="https://maps.googleapis.com/maps/api/streetview?size=150x150&location=' +  lat + ',' +  long + '&heading=' +  heading + '&pitch=' + pitch +  '"><span>';
-
+				var htmlWiki = "<div id='content'><h3>" + name + "</h3>";
+				htmlWiki += '<img class="photoimg" src="https://maps.googleapis.com/maps/api/streetview?size=150x150&location=' + lat + ',' + long + '&heading=' + heading + '&pitch=' + pitch + '"><span>';
 
 				$.ajax({
 					url : wikiurl,
@@ -49,47 +48,11 @@ var NeighborhoodMap = (function() {
 				});
 			});
 		}
-	}; 
+	};
 
 	view.init();
 
-	var viewModel = {
-		points : ko.observableArray([
-			
-			new view.point("Poprad", 49.055194, 20.303424, 280, -0.75),
-			new view.point("Batizovce", 49.068092,20.190787, 340.78, 10.9 ),
-			new view.point("Gerlachov", 49.097556, 20.207349, 20.78, 21.9 ),
-			new view.point("Mlynica", 49.101184,20.312114, 90.78, +22.9),
-			new view.point("Zakopane", 49.292134,19.958986, 230.78, +10.9 )
-			
-			/*		
-						new view.point("Hybe", 49.0724292, 19.8538407),
-						new view.point("Zuberec", 49.2337907, 19.6701133 )*/
-			
-		])
-	};
-
-	ko.applyBindings(viewModel);
-
 	/*
-
-	 var points = [{
-	 name : "Poprad",
-	 lat : 49.0587799,
-	 long : 20.29744795
-	 }, {
-	 name : "Mlynica",
-	 lat : 49.1043459,
-	 long : 20.3032228
-	 }, {
-	 name : "Tatry",
-	 lat : 49.17,
-	 long : 20.13
-	 }];
-
-	 var viewModel = {
-	 query : ko.observable(''),
-	 };
 
 	 viewModel.points = ko.dependentObservable(function() {
 	 var search = this.query().toLowerCase();
@@ -98,65 +61,57 @@ var NeighborhoodMap = (function() {
 	 });
 	 }, viewModel);
 
-	 ko.applyBindings(viewModel);
+	 */
 
-	 var initialize = function() {
+	var viewModel = function() {
 
-	 var mapDiv = document.getElementById("googleMap");
-	 var mapProp = {
-	 center : new google.maps.LatLng(49.055068, 20.296418),
-	 zoom : 10,
-	 mapTypeId : google.maps.MapTypeId.HYBRID
-	 };
-	 var map = new google.maps.Map(mapDiv, mapProp);
+		this.pointsSource = [{
+			name : "Batizovce",
+			lat : 49.068092,
+			long : 20.190787,
+			heading : 340.78,
+			pitch : 10.9
+		}, {
+			name : "Gerlachov",
+			lat : 49.097556,
+			long : 20.207349,
+			heading : 20.78,
+			pitch : 21.9
+		}, {
+			name : "Mlynica",
+			lat : 49.101184,
+			long : 20.312114,
+			heading : 90.78,
+			pitch : +22.9
+		}, {
+			name : "Poprad",
+			lat : 49.055194,
+			long : 20.303424,
+			heading : 280,
+			pitch : -0.75
 
-	 var places = [['Poprad', 49.0587799, 20.29744795], ['Mlynica', 49.1043459, 20.3032228], ['Tatry', 49.17, 20.13]];
+		}, {
+			name : "Zakopane",
+			lat : 49.292134,
+			long : 19.958986,
+			heading : 230.78,
+			pitch : +10.9
+		}];
 
-	 // Hybe
-	 // Vrbov
-	 // Pieniny
-	 // Rysy
-	 // Tatry
-	 // Zuberec
+		this.query = ko.observable('');
 
-	 for (var i = 0; i < places.length; i++) {
-	 var myLatLng = new google.maps.LatLng(places[i][1], places[i][2]);
-	 var marker = new google.maps.Marker({
-	 position : myLatLng,
-	 map : map,
-	 title : places[i][0]
-	 });
-	 }
+		this.points = ko.observableArray();
+		for (var i = 0; i < this.pointsSource.length; i++) {
+			this.points.push(new view.point(this.pointsSource[i].name, this.pointsSource[i].lat, this.pointsSource[i].long, this.pointsSource[i].heading, this.pointsSource[i].pitch));
+		};
 
-	 google.maps.event.addListener(marker, 'click', function() {
+		/*
+		 new view.point("Hybe", 49.0724292, 19.8538407),
+		 new view.point("Zuberec", 49.2337907, 19.6701133 )
+		 */
+	};
 
-	 city = "Poprad";
-
-	 var wikiurl = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&exchars=500&titles=" + city;
-	 var htmlWiki = "<div id='content'><h3>" + city + "</h3>";
-	 htmlWiki += '<img class="photoimg" src="http://maps.googleapis.com/maps/api/streetview?size=150x150&location=' + city + '"><span>';
-
-	 $.ajax({
-	 url : wikiurl,
-	 dataType : "jsonp",
-	 success : function(response) {
-	 var obj = response.query.pages;
-	 for (var prop in obj) {
-	 htmlWiki += obj[prop].extract + "</span><p>Source: <a href='https://en.wikipedia.org/w/index.php?title=" + city + "'>wikipedia</a></p></div>";
-	 }
-
-	 var infowindow = new google.maps.InfoWindow({
-	 content : htmlWiki,
-	 maxWidth : 300
-	 });
-
-	 infowindow.open(map, marker);
-	 }
-	 });
-
-	 });
-	 }
-	 google.maps.event.addDomListener(window, 'load', initialize);*/
+	ko.applyBindings(new viewModel());
 
 }
 )();
