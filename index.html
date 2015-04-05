@@ -12,7 +12,8 @@
 				<label for="filterInput" class="filterSpan ui-widget-header ui-corner-left">Searched Term: </span>
 			</div>
 			<div id="secCol">
-				<input id="filterInput" type="text" class="ui-widget-content ui-corner-right"/><br />
+				<input id="filterInput" type="text" class="ui-widget-content ui-corner-right"/>
+				<br />
 				<button id="filterButton" class="ui-widget-header ui-corner-all">
 					Search
 				</button>
@@ -26,16 +27,13 @@
 				<li class="ui-widget-header ui-corner-left">
 					My Locations
 				</li>
+				<!-- ko foreach: points -->
 				<li>
-					1st item
+					Name: <span data-bind="text: name"></span>;
+					Lat: <span data-bind="text: lat"></span>;
+					Long: <span data-bind="text: long"></span>
 				</li>
-				<li>
-					1st item
-				</li>
-				<li>
-					1st item
-				</li>
-
+				<!-- /ko -->
 			</ul>
 
 			<div id="googleMap" ></div>
