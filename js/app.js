@@ -27,8 +27,19 @@ var NeighborhoodMap = (function() {
 
 				var wikiurl = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&exchars=500&titles=" + name;
 				var htmlWiki = "<div id='content'><h3>" + name + "</h3>";
-				htmlWiki += '<img class="photoimg" src="https://maps.googleapis.com/maps/api/streetview?size=150x150&location=' + lat + ',' + long + '&heading=' + heading + '&pitch=' + pitch + '"><span>';
+				htmlWiki += '<img class="photoimg" alt="Google Street View picture is currently not available" src="https://maps.googleapis.com/maps/api/streetview?size=150x150&location=' + lat + ',' + long + '&heading=' + heading + '&pitch=' + pitch + '"><span>';
 
+				// wikipedia request error handling
+				var wikiRequestTimeout = setTimeout(function() {
+					htmlWiki += "Request of wikipedia resouces failed.</span></p></div>";
+					var infowindow = new google.maps.InfoWindow({
+						content : htmlWiki,
+						maxWidth : 300
+					});
+					infowindow.open(map, marker);
+				}, 3000);
+
+				// jsonp ajax request to get Wikipedia extract
 				$.ajax({
 					url : wikiurl,
 					dataType : "jsonp",
@@ -44,6 +55,7 @@ var NeighborhoodMap = (function() {
 						});
 
 						infowindow.open(map, marker);
+						clearTimeout(wikiRequestTimeout);
 					}
 				});
 			});
@@ -99,8 +111,6 @@ var NeighborhoodMap = (function() {
 
 		 */
 
-		
-
 		this.pointsList = ko.dependentObservable(function() {
 			search = this.query().toLowerCase();
 
@@ -117,7 +127,7 @@ var NeighborhoodMap = (function() {
 
 		}, this);
 
-//		console.log(this.pointsList().length);
+		//		console.log(this.pointsList().length);
 
 		this.points = ko.observableArray();
 
