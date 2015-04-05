@@ -14,8 +14,10 @@
 			</div>
 			<div id="secCol">
 				<form action="#">
-			<!--		<input placeholder="Search ... " id="filterInput" type="search" name="q" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" class="ui-widget-content ui-corner-right" />-->
+					<input placeholder="Search ... " id="filterInput" type="search" name="q" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" class="ui-widget-content ui-corner-right" />
+<!--
 					<input placeholder="Search ... " id="filterInput" type="search" name="q"  autocomplete="off" class="ui-widget-content ui-corner-right" />
+-->
 				
 				</form>
 			</div>
@@ -29,7 +31,7 @@
 					<li class="ui-widget-header ui-corner-all">
 						My Locations
 					</li>
-					<!-- ko foreach : points -->
+					<!-- ko foreach : pointsList -->
 					<li>
 						<strong data-bind="text: name"></strong>
 						Lat: <span data-bind="text: lat"></span>

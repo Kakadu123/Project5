@@ -52,17 +52,6 @@ var NeighborhoodMap = (function() {
 
 	view.init();
 
-	/*
-
-	 viewModel.points = ko.dependentObservable(function() {
-	 var search = this.query().toLowerCase();
-	 return ko.utils.arrayFilter(points, function(point) {
-	 return point.name.toLowerCase().indexOf(search) >= 0;
-	 });
-	 }, viewModel);
-
-	 */
-
 	var viewModel = function() {
 
 		this.pointsSource = [{
@@ -100,7 +89,34 @@ var NeighborhoodMap = (function() {
 
 		this.query = ko.observable('');
 
+		/*
+		 function clearOverlays() {
+		 for (var i = 0; i < this.points.length; i++) {
+		 this.points.setMap(null);
+		 }
+		 this.points.length = 0;
+		 };
+
+		 */
+
 		this.points = ko.observableArray();
+
+		this.pointsList = ko.dependentObservable(function() {
+			search = this.query().toLowerCase();
+
+			/*
+			 for (var i = 0; i < this.points.length; i++) {
+			 this.points.setMap(null);
+			 }
+			 this.points.length = 0;
+			 */
+
+			return ko.utils.arrayFilter(this.pointsSource, function(point) {
+				return point.name.toLowerCase().indexOf(search) >= 0;
+			});
+
+		}, this);
+
 		for (var i = 0; i < this.pointsSource.length; i++) {
 			this.points.push(new view.point(this.pointsSource[i].name, this.pointsSource[i].lat, this.pointsSource[i].long, this.pointsSource[i].heading, this.pointsSource[i].pitch));
 		};
