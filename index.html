@@ -2,47 +2,47 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<link type="text/css"  rel="stylesheet"  href="css/style.css" >
+		<link type="text/css"  rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css" />
+		<link type="text/css"  rel="stylesheet"  href="css/style.css" />
 		<title>Neighborhood map</title>
 	</head>
 	<body>
 		<h2>Neighborhood map</h2>
 		<div id="filterDiv" class="ui-widget ui-corner-all">
 			<div id="firstCol">
-				<label for="filterInput" class="filterSpan ui-widget-header ui-corner-left">Searched Term: </span>
+				<label for="filterInput" class="filterSpan ui-widget-header ui-corner-left">Searched Term: </label>
 			</div>
 			<div id="secCol">
-				<input id="filterInput" type="text" class="ui-widget-content ui-corner-right"/>
-				<br />
-				<button id="filterButton" class="ui-widget-header ui-corner-all">
-					Search
-				</button>
+				<form action="#">
+					<input placeholder="Search ... " id="filterInput" type="search" name="q" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" class="ui-widget-content ui-corner-right" />
+				</form>
 			</div>
-
 		</div>
 
-		<div id="content">
 
-			<ul>
-				<li class="ui-widget-header ui-corner-left">
-					My Locations
-				</li>
-				<!-- ko foreach: points -->
-				<li>
-					Name: <span data-bind="text: name"></span>;
-					Lat: <span data-bind="text: lat"></span>;
-					Long: <span data-bind="text: long"></span>
-				</li>
-				<!-- /ko -->
-			</ul>
+		<div class="content">
 
+			<div class="ulDiv">
+				<ul>
+					<li class="ui-widget-header ui-corner-all">
+						My Locations
+					</li>
+					<!-- ko foreach : points -->
+					<li>
+						<strong data-bind="text: name"></strong>
+						Lat: <span data-bind="text: lat"></span>
+						Long: <span data-bind="text: long"></span>
+					</li>
+					<!-- /ko -->
+				</ul>
+			</div>
 			<div id="googleMap" ></div>
 
 		</div>
 
 		<script src="http://maps.googleapis.com/maps/api/js"></script>
 		<script src="js/jquery.js"></script>
-		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css" />
+
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 		<script src="js/knockout-3.2.0.js"></script>
 		<script src="js/app.js"></script>

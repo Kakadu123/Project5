@@ -1,26 +1,29 @@
 var NeighborhoodMap = (function() {
 
-	var point = function(name, lat, long) {
-		this.name = name;
-		this.lat = ko.observable(lat);
-		this.long = ko.observable(long);
-	}
+	var points = [{
+		name : "Poprad",
+		lat : 49.0587799,
+		long : 20.29744795
+	}, {
+		name : "Mlynica",
+		lat : 49.1043459,
+		long : 20.3032228
+	}, {
+		name : "Tatry",
+		lat : 49.17,
+		long : 20.13
+	}];
+
 	var viewModel = {
-		query: ko.observable(''),
-		points : ko.observableArray([new point('Poprad', 49.0587799, 20.29744795), new point('Mlynica', 49.1043459, 20.3032228), new point('Tatry', 49.17, 20.13)])
+		query : ko.observable(''),
 	};
 
-
-
-/*
-    viewModel.points = ko.dependentObservable(function() {
-        var search = this.query().toLowerCase();
-        return ko.utils.arrayFilter(beers, function(beer) {
-            return beer.name.toLowerCase().indexOf(search) >= 0;
-        });
-    }, viewModel);
-*/
-
+	viewModel.points = ko.dependentObservable(function() {
+		var search = this.query().toLowerCase();
+		return ko.utils.arrayFilter(points, function(point) {
+			return point.name.toLowerCase().indexOf(search) >= 0;
+		});
+	}, viewModel);
 
 	ko.applyBindings(viewModel);
 
@@ -79,9 +82,7 @@ var NeighborhoodMap = (function() {
 			});
 
 		});
-
 	}
-
 	google.maps.event.addDomListener(window, 'load', initialize);
 
 }
