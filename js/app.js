@@ -99,7 +99,7 @@ var NeighborhoodMap = (function() {
 
 		 */
 
-		this.points = ko.observableArray();
+		
 
 		this.pointsList = ko.dependentObservable(function() {
 			search = this.query().toLowerCase();
@@ -116,6 +116,10 @@ var NeighborhoodMap = (function() {
 			});
 
 		}, this);
+
+//		console.log(this.pointsList().length);
+
+		this.points = ko.observableArray();
 
 		for (var i = 0; i < this.pointsSource.length; i++) {
 			this.points.push(new view.point(this.pointsSource[i].name, this.pointsSource[i].lat, this.pointsSource[i].long, this.pointsSource[i].heading, this.pointsSource[i].pitch));
