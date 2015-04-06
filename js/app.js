@@ -54,18 +54,25 @@ var NeighborhoodMap = (function() {
 							htmlWiki += obj[prop].extract + "</span><p>Source: <a href='https://en.wikipedia.org/w/index.php?title=" + name + "'>wikipedia</a></p></div>";
 						}
 
+						// removing animation from non-selected items
+						for (var i = 0; i < markersArray.length; i++) {
+							markersArray[i].setAnimation(null);
+						}
+
+						// removing infowindow from non-active item
+						if (!$.isEmptyObject(infoWindowElement)) {
+							infoWindowElement.close();
+						}
+
 						// infowindow functionality
 						var infowindow = new google.maps.InfoWindow({
 							content : htmlWiki,
 							maxWidth : 300
 						});
 						infowindow.open(map, marker);
+						infoWindowElement = infowindow;
 
-						// removing animation from non-selected items
-						for (var i = 0; i < markersArray.length; i++) {
-							markersArray[i].setAnimation(null);
-						}
-						// bounce effect for 4 seconds
+						// bounce effect lasting 4 seconds
 						var tempMarker = marker;
 						tempMarker.setAnimation(google.maps.Animation.BOUNCE);
 						setTimeout(function() {
@@ -208,8 +215,11 @@ var NeighborhoodMap = (function() {
 	// markers kept in a global variable for clearing purposes as recommended by google
 	// https://developers.google.com/maps/documentation/javascript/examples/marker-remove
 	var markersArray = [];
+	// last open InfoWindow element
+	var infoWindowElement = null;
 	// knockout binding
 	ko.applyBindings(new viewModel());
+
 }
 )();
 
