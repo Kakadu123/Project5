@@ -2,6 +2,8 @@ var NeighborhoodMap = (function() {
 
 	var view = {
 		map : null,
+
+		// initialization of google maps
 		init : function() {
 			var mapDiv = document.getElementById("googleMap");
 			var mapProp = {
@@ -12,6 +14,7 @@ var NeighborhoodMap = (function() {
 			map = new google.maps.Map(mapDiv, mapProp);
 		},
 
+		// point render functionality
 		point : function(name, lat, long, heading, pitch) {
 			this.name = name;
 			this.lat = ko.observable(lat);
@@ -24,6 +27,7 @@ var NeighborhoodMap = (function() {
 			});
 
 			markersArray.push(marker);
+			// marker click event
 			google.maps.event.addListener(marker, 'click', function() {
 
 				var wikiurl = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&exchars=500&titles=" + name;
@@ -50,11 +54,11 @@ var NeighborhoodMap = (function() {
 							htmlWiki += obj[prop].extract + "</span><p>Source: <a href='https://en.wikipedia.org/w/index.php?title=" + name + "'>wikipedia</a></p></div>";
 						}
 
+						// infowindow functionality
 						var infowindow = new google.maps.InfoWindow({
 							content : htmlWiki,
 							maxWidth : 300
 						});
-
 						infowindow.open(map, marker);
 
 						// removing animation from non-selected items
@@ -68,6 +72,7 @@ var NeighborhoodMap = (function() {
 							tempMarker.setAnimation(null);
 						}, 4000);
 
+						// wikipedia error handling - clearing of timeout
 						clearTimeout(wikiRequestTimeout);
 					}
 				});
@@ -77,6 +82,7 @@ var NeighborhoodMap = (function() {
 
 	var viewModel = function() {
 
+		// source array of map point elements
 		this.pointsSource = [{
 			name : "Batizovce",
 			lat : 49.068092,
@@ -145,8 +151,10 @@ var NeighborhoodMap = (function() {
 			pitch : 20
 		}];
 
+		// search input box variable
 		this.query = ko.observable('');
 
+		// filter functionality
 		this.pointsList = ko.dependentObservable(function() {
 			search = this.query().toLowerCase();
 
@@ -169,6 +177,7 @@ var NeighborhoodMap = (function() {
 			return results;
 		}, this);
 
+		// triggered by click event of left list section
 		this.highlighPlace = function(item) {
 
 			// animating markers
