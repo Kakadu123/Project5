@@ -1,4 +1,4 @@
-var NeighborhoodMap = (function() {
+var NeighborhoodMap = (function() { markerList:[];
 
 	var view = {
 		map : null,
@@ -23,6 +23,7 @@ var NeighborhoodMap = (function() {
 				map : map
 			});
 
+			markersArray.push(marker);
 			google.maps.event.addListener(marker, 'click', function() {
 
 				var wikiurl = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&exchars=500&titles=" + name;
@@ -62,8 +63,6 @@ var NeighborhoodMap = (function() {
 		}
 	};
 
-	view.init();
-
 	var viewModel = function() {
 
 		this.pointsSource = [{
@@ -101,48 +100,36 @@ var NeighborhoodMap = (function() {
 
 		this.query = ko.observable('');
 
-		/*
-		 function clearOverlays() {
-		 for (var i = 0; i < this.points.length; i++) {
-		 this.points.setMap(null);
-		 }
-		 this.points.length = 0;
-		 };
-
-		 */
-
 		this.pointsList = ko.dependentObservable(function() {
 			search = this.query().toLowerCase();
 
-			/*
-			 for (var i = 0; i < this.points.length; i++) {
-			 this.points.setMap(null);
-			 }
-			 this.points.length = 0;
-			 */
+			// clearing all markers
+			for (i in markersArray) {
+				markersArray[i].setMap(null);
+			}
+			markersArray = [];
 
-			return ko.utils.arrayFilter(this.pointsSource, function(point) {
+			// applying filtering
+			var results = ko.utils.arrayFilter(this.pointsSource, function(point) {
 				return point.name.toLowerCase().indexOf(search) >= 0;
 			});
 
+			// Looping through result set and setting markers
+			results.forEach(function(item) {
+				new view.point(item.name, item.lat, item.long, item.heading, item.pitch);
+			});
+
+			return results;
 		}, this);
-
-		//		console.log(this.pointsList().length);
-
-		this.points = ko.observableArray();
-
-		for (var i = 0; i < this.pointsSource.length; i++) {
-			this.points.push(new view.point(this.pointsSource[i].name, this.pointsSource[i].lat, this.pointsSource[i].long, this.pointsSource[i].heading, this.pointsSource[i].pitch));
-		};
-
-		/*
-		 new view.point("Hybe", 49.0724292, 19.8538407),
-		 new view.point("Zuberec", 49.2337907, 19.6701133 )
-		 */
 	};
 
+	// Initialization of view
+	view.init();
+	// markers kept in a global variable for clearing purposes as recommended by google
+	// https://developers.google.com/maps/documentation/javascript/examples/marker-remove
+	markersArray = [];
+	// knockout binding
 	ko.applyBindings(new viewModel());
-
 }
 )();
 
