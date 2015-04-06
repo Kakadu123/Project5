@@ -1,6 +1,6 @@
 var NeighborhoodMap = (function() {
 
-	var view = {
+	var model = {
 		map : null,
 
 		// initialization of google maps
@@ -178,7 +178,7 @@ var NeighborhoodMap = (function() {
 
 			// Looping through result set and setting markers
 			results.forEach(function(item) {
-				new view.point(item.name, item.lat, item.long, item.heading, item.pitch);
+				new model.point(item.name, item.lat, item.long, item.heading, item.pitch);
 			});
 
 			return results;
@@ -210,8 +210,8 @@ var NeighborhoodMap = (function() {
 
 	};
 
-	// Initialization of view
-	view.init();
+	// Initialization
+	model.init();
 	// markers kept in a global variable for clearing purposes as recommended by google
 	// https://developers.google.com/maps/documentation/javascript/examples/marker-remove
 	var markersArray = [];
