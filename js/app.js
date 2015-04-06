@@ -5,7 +5,7 @@ var NeighborhoodMap = (function() { markerList:[];
 		init : function() {
 			var mapDiv = document.getElementById("googleMap");
 			var mapProp = {
-				center : new google.maps.LatLng(49.145068, 19.996418),
+				center : new google.maps.LatLng(49.225068, 20.136418),
 				zoom : 10,
 				mapTypeId : google.maps.MapTypeId.HYBRID
 			};
@@ -78,24 +78,53 @@ var NeighborhoodMap = (function() { markerList:[];
 			heading : 20.78,
 			pitch : 21.9
 		}, {
+			name : "Hybe",
+			lat : 49.04469,
+			long : 19.829603,
+			heading : 135,
+			pitch : 10
+		}, {
+			name : "Mengusovce",
+			lat : 49.073884,
+			long : 20.143327,
+			heading : 200,
+			pitch : 20
+		}, {
 			name : "Mlynica",
 			lat : 49.101184,
 			long : 20.312114,
 			heading : 90.78,
 			pitch : +22.9
 		}, {
+			name : "Pieniny",
+			lat : 49.394274,
+			long : 20.41164,
+			heading : 10.78,
+			pitch : +20.9
+		}, {
 			name : "Poprad",
 			lat : 49.055194,
 			long : 20.303424,
 			heading : 280,
 			pitch : -0.75
-
+		}, {
+			name : "Rysy",
+			lat : 49.154415,
+			long : 20.078588,
+			heading : 120,
+			pitch : 20
 		}, {
 			name : "Zakopane",
 			lat : 49.292134,
 			long : 19.958986,
 			heading : 230.78,
 			pitch : +10.9
+		}, {
+			name : "Zuberec",
+			lat : 49.25851,
+			long : 19.612763,
+			heading : 20,
+			pitch : 20
 		}];
 
 		this.query = ko.observable('');
