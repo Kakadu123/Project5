@@ -4,21 +4,20 @@ body {
 
 #googleMap {
 	margin: 10px;
-	width: 67%;
-	height: 500px;
+	width: 73%;
+	height: 570px;
 	float: left;
 	min-width: 450px;
 }
 
 .ulDiv {
 	margin: 10px;
-	width: 28%;
 	float: left;
-	min-width: 320px;
+	max-width: 350px;
 }
 
 h2 {
-	margin: 30px;
+	margin: 10px;
 	padding-left: 5%;
 }
 
@@ -28,7 +27,7 @@ li {
 }
 
 #filterDiv {
-	margin: 20px 15px;
+	margin: 5px 15px;
 	font-size: 0.9em;
 }
 
@@ -65,13 +64,19 @@ li {
 	float: right;
 }
 
-@media screen and (max-width: 1130px) {
+.ulDiv li:hover {
+	cursor: pointer;
+	background: #E6E4E7;
+}
+
+@media screen and (max-width: 1460px) {
 
 	#googleMap {
 		width: 96%;
 	}
 	.ulDiv {
 		width: 96%;
+		max-width: none;
 	}
 
 	#secCol {

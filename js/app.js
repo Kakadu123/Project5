@@ -1,4 +1,4 @@
-var NeighborhoodMap = (function() { markerList:[];
+var NeighborhoodMap = (function() {
 
 	var view = {
 		map : null,
@@ -56,6 +56,18 @@ var NeighborhoodMap = (function() { markerList:[];
 						});
 
 						infowindow.open(map, marker);
+
+						// removing animation from non-selected items
+						for (var i = 0; i < markersArray.length; i++) {
+							markersArray[i].setAnimation(null);
+						}
+						// bounce effect for 4 seconds
+						var tempMarker = marker;
+						tempMarker.setAnimation(google.maps.Animation.BOUNCE);
+						setTimeout(function() {
+							tempMarker.setAnimation(null);
+						}, 4000);
+
 						clearTimeout(wikiRequestTimeout);
 					}
 				});
@@ -77,6 +89,12 @@ var NeighborhoodMap = (function() { markerList:[];
 			long : 20.207349,
 			heading : 20.78,
 			pitch : 21.9
+		}, {
+			name : "Haligovce",
+			lat : 49.376291,
+			long : 20.44889,
+			heading : 20,
+			pitch : 10
 		}, {
 			name : "Hybe",
 			lat : 49.04469,
@@ -133,7 +151,7 @@ var NeighborhoodMap = (function() { markerList:[];
 			search = this.query().toLowerCase();
 
 			// clearing all markers
-			for (i in markersArray) {
+			for (var i in markersArray) {
 				markersArray[i].setMap(null);
 			}
 			markersArray = [];
@@ -150,13 +168,37 @@ var NeighborhoodMap = (function() { markerList:[];
 
 			return results;
 		}, this);
+
+		this.highlighPlace = function(item) {
+
+			// animating markers
+			for (var i = 0; i < markersArray.length; i++) {
+
+				// removing animation from non-selected items
+				markersArray[i].setAnimation(null);
+				if (markersArray[i].title == item.name) {
+
+					// centering the clicked location
+					var panLocation = new google.maps.LatLng(item.lat, item.long);
+					map.panTo(panLocation);
+
+					// bounce effect for 4 seconds
+					var tempMarker = markersArray[i];
+					tempMarker.setAnimation(google.maps.Animation.BOUNCE);
+					setTimeout(function() {
+						tempMarker.setAnimation(null);
+					}, 4000);
+				}
+			}
+		};
+
 	};
 
 	// Initialization of view
 	view.init();
 	// markers kept in a global variable for clearing purposes as recommended by google
 	// https://developers.google.com/maps/documentation/javascript/examples/marker-remove
-	markersArray = [];
+	var markersArray = [];
 	// knockout binding
 	ko.applyBindings(new viewModel());
 }
